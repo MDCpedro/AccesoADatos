@@ -2,14 +2,16 @@ package u1ex01;
 import java.io.File;
 
 public class AccesFile43235705y {
-    public void CrearArchivo(String nombre_archivo_nuevo) {
-        // File file = new File("C:\\Users\\alumne-DAM\\Documents\\Github\\AccesoADatos\\U1EX01\\app\\src\\main\\resources\\"+nombre_archivo_nuevo+".txt");
 
-        // boolean existeArchivo = file.exists();
-        // if (existeArchivo == true) {
-        //     System.out.println("Ya existe el archivo");
-        // }
-
-
+    public void QuitarEscritura(String path1) {
+        try {
+            File archivo = new File(path1);
+            archivo.setWritable(false);
+            System.out.println("Permisos de escritura eliminados.");
+            
+        }
+        catch (Exception e) {
+            System.out.println("No se pudo quitar los permisos.");
+        }
     }
 }
