@@ -18,8 +18,9 @@ public class AccesInputStream43235705y {
             return contenido.toString();
 
         } catch (Exception e) {
-            System.out.println("Error al leer archivo binario o permiso denegado.");
+            System.out.println("Error al leer archivo binario o permiso denegado");
+            return null;
         } 
-        return LeerArchivo(path1);
+        
     } 
 }
