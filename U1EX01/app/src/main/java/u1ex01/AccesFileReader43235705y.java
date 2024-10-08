@@ -1,8 +1,6 @@
 package u1ex01;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.security.Permission;
 
 
 public class AccesFileReader43235705y {

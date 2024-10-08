@@ -1,11 +1,6 @@
 package u1ex01;
-import java.io.File;
-import u1ex01.AccesFileReader43235705y;
-import u1ex01.AccesFileWriter43235705y;
-import u1ex01.AccesInputStream43235705y;
-import u1ex01.AccesOutputStream43235705y;
-import u1ex01.AccesFile43235705y;
-public class App {
+
+public class App43235705y {
 
     public static void main(String[] args) {
 
