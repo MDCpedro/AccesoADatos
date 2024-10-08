@@ -38,29 +38,15 @@ public class LectorXML {
 
                         Element campo = (Element) libroActual;
 
-            // detectamos si el autor es Stephen King o Richard Bach y guardamos los datos en un archivo de texto con su nombre
+            // detectamos el autor y guardamos los datos en un archivo de texto con su nombre
+                    String autorActual = campo.getElementsByTagName("autor").item(0).getTextContent();
 
-                        if (campo.getElementsByTagName("autor").item(0).getTextContent().equals("Stephen King")) {
-                            FileWriter escritor = new FileWriter("app\\src\\main\\resources\\Stephen King.txt", true);
-    
-                            escritor.write("Titulo: " +campo.getElementsByTagName("titol").item(0).getTextContent()+ ".\n");
-                            escritor.write("Autor: " +campo.getElementsByTagName("autor").item(0).getTextContent()+ ".\n");
-                            escritor.write("Año: " +campo.getElementsByTagName("any").item(0).getTextContent()+ ".\n");
-                            escritor.write("Resumen: " +campo.getElementsByTagName("resum").item(0).getTextContent()+ ".\n");
-                            escritor.write("\n");
-                            escritor.close();
-
-                        } else {
-                            FileWriter escritor = new FileWriter("app\\src\\main\\resources\\Richard Bach.txt", true);
-    
-                            escritor.write("Titulo: " +campo.getElementsByTagName("titol").item(0).getTextContent()+ ".\n");
-                            escritor.write("Autor: " +campo.getElementsByTagName("autor").item(0).getTextContent()+ ".\n");
-                            escritor.write("Año: " +campo.getElementsByTagName("any").item(0).getTextContent()+ ".\n");
-                            escritor.write("Resumen: " +campo.getElementsByTagName("resum").item(0).getTextContent()+ ".\n");
-                            escritor.write("\n");
-                            escritor.close();
-
-                        }
+                    FileWriter escritor = new FileWriter("app\\src\\main\\resources\\" + autorActual + ".txt", true);
+                    escritor.write("Titulo: " +campo.getElementsByTagName("titol").item(0).getTextContent()+ ".\n");
+                    escritor.write("Autor: " +campo.getElementsByTagName("autor").item(0).getTextContent()+ ".\n");
+                    escritor.write("Año: " +campo.getElementsByTagName("any").item(0).getTextContent()+ ".\n");
+                    escritor.write("Resumen: " +campo.getElementsByTagName("resum").item(0).getTextContent()+ ".\n\n");
+                    escritor.close();
                         
             // hacemos un sout de cada campo
                     System.out.println(i);
