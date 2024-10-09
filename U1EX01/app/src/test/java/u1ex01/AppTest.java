@@ -4,11 +4,9 @@
 package u1ex01;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 class AppTest {
     @Test void appHasAGreeting() {
-        App43235705y classUnderTest = new App43235705y();
         
     }
 }

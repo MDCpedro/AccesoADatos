@@ -37,23 +37,30 @@ public class LectorXML {
                     if (libroActual.getNodeType() == libroActual.ELEMENT_NODE) {
 
                         Element campo = (Element) libroActual;
+                
+            // creamos un objeto libro con los datos del campo
+
+                    Libro libro = new Libro(campo.getElementsByTagName("titol").item(0).getTextContent(),
+                    campo.getElementsByTagName("autor").item(0).getTextContent(), 
+                    campo.getElementsByTagName("any").item(0).getTextContent(), 
+                    campo.getElementsByTagName("resum").item(0).getTextContent());
 
             // detectamos el autor y guardamos los datos en un archivo de texto con su nombre
-                    String autorActual = campo.getElementsByTagName("autor").item(0).getTextContent();
-
-                    FileWriter escritor = new FileWriter("app\\src\\main\\resources\\" + autorActual + ".txt", true);
-                    escritor.write("Titulo: " +campo.getElementsByTagName("titol").item(0).getTextContent()+ ".\n");
-                    escritor.write("Autor: " +campo.getElementsByTagName("autor").item(0).getTextContent()+ ".\n");
-                    escritor.write("Año: " +campo.getElementsByTagName("any").item(0).getTextContent()+ ".\n");
-                    escritor.write("Resumen: " +campo.getElementsByTagName("resum").item(0).getTextContent()+ ".\n\n");
+                  
+                    FileWriter escritor = new FileWriter("app\\src\\main\\resources\\" + libro.getAutor() + ".txt", true);
+                    escritor.write("Titulo: "+libro.getTitol()+"\n");
+                    escritor.write("Autor: "+libro.getAutor()+"\n");
+                    escritor.write("Año: "+libro.getAny()+"\n");
+                    escritor.write("Resumen: "+libro.getResumen()+"\n");
+                    escritor.write("\n");
                     escritor.close();
                         
             // hacemos un sout de cada campo
                     System.out.println(i);
-                    System.out.println("Titulo: " +campo.getElementsByTagName("titol").item(0).getTextContent()+ ".");
-                    System.out.println("Autor: " +campo.getElementsByTagName("autor").item(0).getTextContent()+ ".");
-                    System.out.println("Año: " +campo.getElementsByTagName("any").item(0).getTextContent()+ ".");
-                    System.out.println("Resumen: " +campo.getElementsByTagName("resum").item(0).getTextContent()+ ".");
+                    System.out.println("Titulo: "+libro.getTitol());
+                    System.out.println("Autor: "+libro.getAutor());
+                    System.out.println("Año: "+libro.getAny());
+                    System.out.println("Resumen: "+libro.getResumen());
                     System.out.println("");
                     }
                 }
