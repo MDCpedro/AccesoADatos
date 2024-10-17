@@ -11,13 +11,14 @@ public class SAXHandler extends DefaultHandler {
     boolean isAño = false;
     boolean isResumen = false;
 //creamos el objeto libro, para que sea visto por los demas metodos
-    ArticuloLibro libro = new ArticuloLibro(null, null, 0, null);
+    ArticuloLibro libro;
 //este método se ejecuta cuando se encuentra un elemento, si es el tag que buscamos, creamos un objeto nuevo
 //y ponemos true en cada booleano.
     @Override   
     public void startElement (String uri, String localName, String qName, org.xml.sax.Attributes attributes) {
-        libro = new ArticuloLibro(null, null, 0, null);
-        if (qName.equalsIgnoreCase("Autor")) {
+        if (qName.equalsIgnoreCase("llibre")) {
+            libro = new ArticuloLibro(null, null, 0, null);
+        } else if (qName.equalsIgnoreCase("Autor")) {
             isAutor = true;
         } else if (qName.equalsIgnoreCase("Titol")) {
             isTitulo = true;
@@ -59,10 +60,11 @@ public class SAXHandler extends DefaultHandler {
         if (qName.equalsIgnoreCase("llibre")) {
             System.out.println("-------------------");
         }
+        String autor = libro.getAutor();
     //usamos Filewriter para escribir en cada 
         try {
             FileWriter escritor = new FileWriter("app\\src\\main\\resources\\Any" + libro.getAño() + ".txt", true);
-            escritor.write(libro.getAutor() + "\n");
+            escritor.write(autor+"\n");
             escritor.write(libro.getTitulo() + "\n");
             escritor.write(String.valueOf(libro.getAño()) + "\n");
             escritor.write(libro.getResumen() + "\n");
