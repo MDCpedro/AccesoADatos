@@ -4,8 +4,8 @@ import org.xml.sax.helpers.DefaultHandler;
 import java.io.FileWriter;
 
 public class SAXHandler extends DefaultHandler {
-    // creamos unos booleanos que nos serviran para confirmar el elemento que
-    // estamos
+    // creamos unos booleanos que nos serviran para confirmar el elemento que estamos
+    boolean isLibro = false;
     boolean isAutor = false;
     boolean isTitulo = false;
     boolean isAño = false;
@@ -22,6 +22,8 @@ public class SAXHandler extends DefaultHandler {
     public void startElement(String uri, String localName, String qName, org.xml.sax.Attributes attributes) {
         if (qName.equalsIgnoreCase("llibre")) {
             libro = new ArticuloLibro(null, null, 0, null);
+            isLibro = true;
+            System.out.println("-------------------");
         } else if (qName.equalsIgnoreCase("Autor")) {
             isAutor = true;
         } else if (qName.equalsIgnoreCase("Titol")) {
@@ -35,48 +37,45 @@ public class SAXHandler extends DefaultHandler {
     }
 
     // este método se ejecuta cuando se encuentra el contenido de cada tag
-    
+
     @Override
     public void characters(char[] ch, int start, int lenght) {
         contenidoActual.append(new String(ch, start, lenght).trim());
     }
 
-    // este método se ejecuta cuando se cierra un elemento, si el booleano es true, añadimos el contenido al objeto
-    // y lo mostramos por consola y ponemos el booleano a false para indicr que ya se ha añadido el contenido.
+    // este método se ejecuta cuando se cierra un elemento, si el booleano es true,
+    // añadimos el contenido al objeto
+    // y lo mostramos por consola y ponemos el booleano a false para indicr que ya
+    // se ha añadido el contenido.
     @Override
     public void endElement(String uri, String localName, String qName) {
+        try {
+            FileWriter escritor = new FileWriter("app\\src\\main\\resources\\Any" + libro.getAño() + ".txt", true);
 
-        if (isAutor) {
-            libro.setAutor(contenidoActual.toString());
-            System.out.println("Autor: " + libro.getAutor());
-            isAutor = false;
-        } else if (isTitulo) {
-            libro.setTitulo(contenidoActual.toString());
-            System.out.println("Titulo: " + libro.getTitulo());
-            isTitulo = false;
-        } else if (isAño) {
-            libro.setAño(Integer.parseInt(contenidoActual.toString()));
-            System.out.println("Año: " + libro.getAño());
-            isAño = false;
-        } else if (isResumen) {
-            libro.setResumen(contenidoActual.toString());
-            System.out.println("Resumen: " + libro.getResumen());
-            isResumen = false;
-        }
-        
-        // usamos Filewriter para escribir en cada archivo, si el objeto libro tiene todos los campos
-        if (libro.getAutor() != null && libro.getTitulo() != null && libro.getAño() > 0 && libro.getResumen() != null) {
-            try {
-                FileWriter escritor = new FileWriter("app\\src\\main\\resources\\Any" + libro.getAño() + ".txt", true);
+            if (isAutor) {
+                libro.setAutor(contenidoActual.toString());
+                System.out.println("Autor: " + libro.getAutor());
                 escritor.write(libro.getAutor() + "\n");
+                isAutor = false;
+            } else if (isTitulo) {
+                libro.setTitulo(contenidoActual.toString());
+                System.out.println("Titulo: " + libro.getTitulo());
                 escritor.write(libro.getTitulo() + "\n");
+                isTitulo = false;
+            } else if (isAño) {
+                libro.setAño(Integer.parseInt(contenidoActual.toString()));
+                System.out.println("Año: " + libro.getAño());
                 escritor.write(String.valueOf(libro.getAño()) + "\n");
+                isAño = false;
+            } else if (isResumen) {
+                libro.setResumen(contenidoActual.toString());
+                System.out.println("Resumen: " + libro.getResumen());
                 escritor.write(libro.getResumen() + "\n");
-                escritor.write("-------------------\n");
-                escritor.close();
-            } catch (Exception e) {
-                System.out.println("Error al crear el archivo");
+                isResumen = false;
             }
-        } 
+            escritor.close();
+        } catch (Exception e) {
+            System.out.println("Error al crear el archivo");
+        }
     }
 }
