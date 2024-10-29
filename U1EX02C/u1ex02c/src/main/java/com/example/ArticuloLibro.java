@@ -1,23 +1,23 @@
 package com.example;
 
 import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlType;
 
-@XmlRootElement(name = "llibre")
+@XmlType(propOrder = {"autor", "titol", "any", "resum"})
 public class ArticuloLibro {
     private String Autor;
-    private String Titulo;
-    private int año;
-    private String resumen;
+    private String Titol;
+    private int any;
+    private String resum;
 
     public ArticuloLibro() {
     }   
 
-    public ArticuloLibro(String Autor, String Titulo, int año, String resumen) {
+    public ArticuloLibro(String Autor, String Titol, int any, String resum) {
         this.Autor = Autor;
-        this.Titulo = Titulo;
-        this.año = año;
-        this.resumen = resumen;
+        this.Titol = Titol;
+        this.any = any;
+        this.resum = resum;
     }
     
     @XmlElement(name = "autor")
@@ -29,27 +29,27 @@ public class ArticuloLibro {
     }
 
     @XmlElement(name = "titol")
-    public String getTitulo() {
-        return Titulo;
+    public String getTitol() {
+        return Titol;
     }
-    public void setTitulo(String Titulo) {
-        this.Titulo = Titulo;
+    public void setTitol(String Titol) {
+        this.Titol = Titol;
     }
 
     @XmlElement(name = "any")
-    public int getAño() {
-        return año;
+    public int getany() {
+        return any;
     }
-    public void setAño(int año) {
-        this.año = año;
+    public void setany(int any) {
+        this.any = any;
     }
 
     @XmlElement(name = "resum")
-    public String getResumen() {
-        return resumen;
+    public String getresum() {
+        return resum;
     }
-    public void setResumen(String resumen) {
-        this.resumen = resumen;
+    public void setresum(String resum) {
+        this.resum = resum;
     }
 
 }

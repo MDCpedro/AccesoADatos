@@ -51,26 +51,28 @@ public class SAXHandler extends DefaultHandler {
     public void endElement(String uri, String localName, String qName) {
         try {
             FileWriter escritor = new FileWriter("app\\src\\main\\resources\\Any" + libro.getAño() + ".txt", true);
-
             if (isAutor) {
                 libro.setAutor(contenidoActual.toString());
                 System.out.println("Autor: " + libro.getAutor());
-                escritor.write(libro.getAutor() + "\n");
+                escritor.write("\n"+ libro.getAutor());
                 isAutor = false;
+
             } else if (isTitulo) {
                 libro.setTitulo(contenidoActual.toString());
                 System.out.println("Titulo: " + libro.getTitulo());
-                escritor.write(libro.getTitulo() + "\n");
+                escritor.write("\n"+ libro.getTitulo());
                 isTitulo = false;
+
             } else if (isAño) {
                 libro.setAño(Integer.parseInt(contenidoActual.toString()));
                 System.out.println("Año: " + libro.getAño());
-                escritor.write(String.valueOf(libro.getAño()) + "\n");
+                escritor.write(String.valueOf("\n"+ libro.getAño()));
                 isAño = false;
+                
             } else if (isResumen) {
                 libro.setResumen(contenidoActual.toString());
                 System.out.println("Resumen: " + libro.getResumen());
-                escritor.write(libro.getResumen() + "\n");
+                escritor.write("\n"+ libro.getResumen());
                 isResumen = false;
             }
             escritor.close();
