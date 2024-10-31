@@ -16,6 +16,7 @@ public class ArticuloLibro {
     public String getAutor() {
         return Autor;
     }
+
     public void setAutor(String Autor) {
         this.Autor = Autor;
     }
@@ -23,6 +24,7 @@ public class ArticuloLibro {
     public String getTitulo() {
         return Titulo;
     }
+
     public void setTitulo(String Titulo) {
         this.Titulo = Titulo;
     }
@@ -30,6 +32,7 @@ public class ArticuloLibro {
     public int getAño() {
         return año;
     }
+
     public void setAño(int año) {
         this.año = año;
     }
@@ -37,6 +40,7 @@ public class ArticuloLibro {
     public String getResumen() {
         return resumen;
     }
+
     public void setResumen(String resumen) {
         this.resumen = resumen;
     }

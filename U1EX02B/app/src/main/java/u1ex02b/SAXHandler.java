@@ -46,7 +46,7 @@ public class SAXHandler extends DefaultHandler {
     // este método se ejecuta cuando se cierra un elemento, si el booleano es true,
     // añadimos el contenido al objeto
     // y lo mostramos por consola y ponemos el booleano a false para indicr que ya
-    // se ha añadido el contenido.
+    // se ha añadido el contenido. Usamos filewriter para escribir el contenido en el archivo.
     @Override
     public void endElement(String uri, String localName, String qName) {
         try {
@@ -54,25 +54,25 @@ public class SAXHandler extends DefaultHandler {
             if (isAutor) {
                 libro.setAutor(contenidoActual.toString());
                 System.out.println("Autor: " + libro.getAutor());
-                escritor.write("\n"+ libro.getAutor());
+                escritor.write("\n"+ contenidoActual.toString());
                 isAutor = false;
 
             } else if (isTitulo) {
                 libro.setTitulo(contenidoActual.toString());
                 System.out.println("Titulo: " + libro.getTitulo());
-                escritor.write("\n"+ libro.getTitulo());
+                escritor.write("\n"+ contenidoActual.toString());
                 isTitulo = false;
 
             } else if (isAño) {
                 libro.setAño(Integer.parseInt(contenidoActual.toString()));
                 System.out.println("Año: " + libro.getAño());
-                escritor.write(String.valueOf("\n"+ libro.getAño()));
+                escritor.write(String.valueOf("\n"+ contenidoActual.toString()));
                 isAño = false;
                 
             } else if (isResumen) {
                 libro.setResumen(contenidoActual.toString());
                 System.out.println("Resumen: " + libro.getResumen());
-                escritor.write("\n"+ libro.getResumen());
+                escritor.write("\n"+ contenidoActual.toString());
                 isResumen = false;
             }
             escritor.close();
