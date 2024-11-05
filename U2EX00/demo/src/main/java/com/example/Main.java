@@ -8,11 +8,11 @@ public class Main {
     public static void main(String[] args) {
         String url = "jdbc:sqlite:demo\\src\\main\\java\\com\\example\\library.db";
 
-        try (Connection coneccion = DriverManager.getConnection(url)) {
-            if (coneccion != null) {
+        try (Connection conexion = DriverManager.getConnection(url)) {
+            if (conexion != null) {
                 System.out.println("Conectando con base de datos");
 
-                Statement stmt = coneccion.createStatement();
+                Statement stmt = conexion.createStatement();
                 String query = "SELECT * FROM books";
                 ResultSet rs = stmt.executeQuery(query);
 
