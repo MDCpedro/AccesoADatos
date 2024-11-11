@@ -22,8 +22,6 @@ public class Main {
             boolean salir = false;
 
             Statement stmt = conexion.createStatement();
-            String query = "SELECT * FROM empleats";
-            ResultSet rs = stmt.executeQuery(query);
 
             while (!salir) {
 
@@ -43,7 +41,7 @@ public class Main {
                         salir = true;
                         break;
                     case "1":
-                        leerBaseDatos(rs);
+                        leerBaseDatos(conexion);
                         System.out.println("Pulsa cualquier tecla para continuar.");
                         scanner.nextLine();
                         break;
@@ -67,9 +65,13 @@ public class Main {
         }
     }
 
-    public static void leerBaseDatos(ResultSet rs) {
+    public static void leerBaseDatos(Connection conexion) {
         System.out.println("Leyendo base de datos...");
         try {
+            Statement stmt = conexion.createStatement();
+            String query = "SELECT * FROM empleats";
+            ResultSet rs = stmt.executeQuery(query);
+
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String nombre = rs.getString("nom");
@@ -81,6 +83,7 @@ public class Main {
                 System.out.println("Edad: " + edad);
                 System.out.println("Correo: " + correo);
                 System.out.println("------------------------");
+
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -141,4 +144,3 @@ public class Main {
 }
 
 // comprobar en todos los scanners que los valores son correctos o petará
-// al leer por segunda vez la base de datos no funciona
