@@ -54,6 +54,6 @@ public class Persona {
     }
 
     public String printPersona() {
-        return "ID: " + id + " | Nombre: " + nombre + " | Edad " + edad + " | Correo " + email + " | ";
+        return "ID: " + id + " | Nombre: " + nombre + " | Edad: " + edad + " | Correo: " + email + " | ";
     }
 }

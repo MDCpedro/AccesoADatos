@@ -78,7 +78,7 @@ public class Main {
             System.out.println("-----Creando usuario-----");
             System.out.println("Introduce el nombre: ");
             String nombre = scanner.nextLine();
-            System.out.println("Introduce la edad: ");
+            System.out.println("Introduce la edad: ");  
             int edad = scanner.nextInt();
             scanner.nextLine();
             System.out.println("Introduce correo electronico: ");
@@ -107,8 +107,9 @@ public class Main {
 
             System.out.println("------Eliminando usuario-------");
             System.out.println("Escribe el nombre del usuario a eliminar");
+            mostrarUsuarios(emf);
             String nombre = scanner.nextLine();
-            Persona persona = em.find(Persona.class, nombre);
+            Persona persona = em.createQuery("SELECT p FROM Persona WHERE p.nombre = :nombre", Persona.class);
 
             if (persona != null) {
                 em.remove(persona);
