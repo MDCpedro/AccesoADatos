@@ -1,65 +1,60 @@
 package com.example;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-import com.objectdb.o.CLN.p;
 // usamos la anotación @Entity para indicar que esta clase es una entidad de la base de datos
 @Entity
-public class Persona {
+public class Empresa {
     // usamos la anotación @Id para indicar que este campo es la clave primaria
     // usamos la anotación @GeneratedValue para indicar que el valor de este campo se genera automáticamente
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    private String cif;
     private String nombre;
-    private int edad;
-    private String email;
+    private String direccion;
+
     // este constructor vacío es necesario para que ObjectDB pueda instanciar la clase
-    public Persona() {
+    public Empresa() {
     }
-    // este constructor es el que usaremos para crear instancias de la clase Persona
-    public Persona(String nombre, int edad, String email) {
+    // este constructor es el que usaremos para crear instancias de la clase Empresa    
+    public Empresa(String cif, String nombre, String direccion) {
+        this.cif = cif;
         this.nombre = nombre;
-        this.edad = edad;
-        this.email = email;
+        this.direccion = direccion;
     }
     // getters y setters
     public long getId() {
         return id;
     }
 
+    public String getCif() {
+        return cif;
+    }
+
     public String getNombre() {
         return nombre;
     }
 
-    public int getEdad() {
-        return edad;
+    public String getDireccion() {
+        return direccion;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setCif(String cif) {
+        this.cif = cif;
     }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
-    public void setEdad(int edad) {
-        this.edad = edad;
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
-    public String printPersona() {
-        return "ID: " + id + " | Nombre: " + nombre + " | Edad: " + edad + " | Correo: " + email + " | ";
+    public String printEmpresa() {
+        return "Id: " + id + " | CIF: " + cif + " | Nombre: " + nombre + " | Direccion: " + direccion + " | ";
     }
 }

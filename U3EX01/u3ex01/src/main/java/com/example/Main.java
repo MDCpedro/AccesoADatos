@@ -4,19 +4,26 @@ import java.util.Scanner;
 import java.util.List;
 
 import javax.persistence.Query;
+
+import com.objectdb.o.STN.w;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 public class Main {
     public static void main(String[] args) {
+        // Booleanos de los menus para salir posteriormente
         boolean salirMenu1 = false;
         boolean salirMenuPer = false;
-
+        boolean salirMenuEmp = false;
+        // Importo la clase metodosODB para poder usar sus funciones
+        metodosODB funcionesODB = new metodosODB();
+        // Creo el EntityManagerFactory que nos permtirá conectarnos a la base de datos
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("unidadpersistencia");
 
         Scanner scanner = new Scanner(System.in);
-
+        // Bucle principal del programa
         while (!salirMenu1) {
             System.out.println("-----Base de datos-----");
             System.out.println("-------Entidades--------");
@@ -25,10 +32,14 @@ public class Main {
             System.out.println("Teclea una opción: ");
 
             String opcionMenu = scanner.nextLine();
+            // Switch para elegir entre las opciones del menu principal
             switch (opcionMenu) {
+                // Salir del programa
                 case "0":
+                    System.out.println("------Saliendo------");
                     salirMenu1 = true;
                     break;
+                // Menu de personas
                 case "1":
                     while (!salirMenuPer) {
                         System.out.println("-------Personas------");
@@ -42,111 +53,71 @@ public class Main {
                         String opcionPer = scanner.nextLine();
                         switch (opcionPer) {
                             case "0":
-                                System.out.println("------Saliendo------");
+                                // Salir del menu de personas
                                 salirMenuPer = true;
                                 break;
                             case "1":
-                                crearUsuario(emf, scanner);
+                                // Crear una persona
+                                funcionesODB.crearUsuario(emf, scanner);
                                 break;
                             case "2":
-                                eliminarUsuario(emf, scanner);
+                                // Borrar una persona
+                                funcionesODB.eliminarUsuario(emf, scanner);
+                                break;
+                            case "3":
+                                // Modificar una persona
+                                funcionesODB.modificarUsuario(emf, scanner);
                                 break;
                             case "4":
-                                mostrarUsuarios(emf);
+                                // Mostrar todas las personas
+                                funcionesODB.mostrarUsuarios(emf, scanner);
+                                System.out.println("Pulsa una tecla para continuar");
+                                scanner.nextLine();
                                 break;
                             default:
                                 break;
                         }
-
                     }
-                    break;
+                // Menu de empresas
                 case "2":
-                    break;
-                default:
-                    break;
+                    while (!salirMenuEmp) {
+                        System.out.println("-------Empresas------");
+                        System.out.println("0- Salir.");
+                        System.out.println("1- Introducir Empresa");
+                        System.out.println("2- Borrar Empresa");
+                        System.out.println("3- Modificar Empresa");
+                        System.out.println("4- Mostrar Empresas.");
+                        System.out.println("Teclea una opción: ");
+
+                        String opcionEmp = scanner.nextLine();
+                        switch (opcionEmp) {
+                            case "0":
+                                // Salir del menu de empresas
+                                salirMenuEmp = true;
+                                break;
+                            case "1":
+                                // Crear una empresa
+                                funcionesODB.crearEmpresa(emf, scanner);
+                                break;
+                            case "2":
+                                // Borrar una empresa
+                                funcionesODB.eliminarEmpresa(emf, scanner);
+                                break;
+                            case "3":
+                                // Modificar una empresa
+                                funcionesODB.modificarEmpresa(emf, scanner);
+                                break;
+                            case "4":
+                                // Mostrar todas las empresas
+                                funcionesODB.mostrarEmpresas(emf, scanner);
+                                System.out.println("Pulsa una tecla para continuar");
+                                scanner.nextLine();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
             }
-
-        }
-    }
-
-    public static void crearUsuario(EntityManagerFactory emf, Scanner scanner) {
-        try {
-            EntityManager em = emf.createEntityManager();
-
-            em.getTransaction().begin();
-
-            System.out.println("-----Creando usuario-----");
-            System.out.println("Introduce el nombre: ");
-            String nombre = scanner.nextLine();
-            System.out.println("Introduce la edad: ");  
-            int edad = scanner.nextInt();
-            scanner.nextLine();
-            System.out.println("Introduce correo electronico: ");
-            String correo = scanner.nextLine();
-            
-            Persona persona = new Persona(nombre, edad, correo);
-            em.persist(persona);
-
-            em.getTransaction().commit();
-            System.out.println("Usuario guardado correctamente (pulsa una tecla para continuar)");
-            scanner.nextLine();
-            em.close();
-
-        } catch (Exception e) {
-            System.out.println("Errir al crear usuario");
-            e.getMessage();
-            e.printStackTrace();
-        }
-
-    }
-
-    public static void eliminarUsuario(EntityManagerFactory emf, Scanner scanner) {
-        try {
-            EntityManager em = emf.createEntityManager();
-            em.getTransaction().begin();
-
-            System.out.println("------Eliminando usuario-------");
-            System.out.println("Escribe el nombre del usuario a eliminar");
-            mostrarUsuarios(emf);
-            String nombre = scanner.nextLine();
-            Persona persona = em.createQuery("SELECT p FROM Persona WHERE p.nombre = :nombre", Persona.class);
-
-            if (persona != null) {
-                em.remove(persona);
-                System.out.println("Usuario eliminado.");
-            } else {
-                System.out.println("El usuario con el nombre: " +nombre+ ", no existe");
-            }
-            em.getTransaction().commit();
-            em.close();
-
-        } catch (Exception e) {
-            System.out.println("Error al borrar usuario");
-            e.getMessage();
-            e.printStackTrace();
-        }
-    }
-
-    public static void mostrarUsuarios(EntityManagerFactory emf) {
-
-        try {
-            EntityManager em = emf.createEntityManager();
-            em.getTransaction().begin();
-
-            Query queryUsers = em.createQuery("SELECT p FROM Persona p");
-            List<Persona> listaUsuarios = queryUsers.getResultList();
-
-            for(Persona usuario : listaUsuarios) {
-                System.out.println(usuario.printPersona());
-            }
-
-            em.getTransaction().commit();
-            em.close();
-            
-        } catch (Exception e) {
-            System.out.println("Error al mostrar los usuarios");
-            e.getMessage();
-            e.printStackTrace();
         }
     }
 }
