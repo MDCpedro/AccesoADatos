@@ -32,11 +32,11 @@ public class Main {
             System.out.println("Teclea una opción: ");
 
             String opcionMenu = scanner.nextLine();
-            // Switch para elegir entre las opciones del menu principal
+            / /Swi
+            System.out.printtch para elegir entre las opciones del menu principal
             switch (opcionMenu) {
                 // Salir del programa
-                case "0":
-                    System.out.println("------Saliendo------");
+                case "0":ln("------Saliendo------");
                     salirMenu1 = true;
                     break;
                 // Menu de personas
