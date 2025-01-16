@@ -4,7 +4,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-
+import org.hibernate.cfg.Configuration;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
@@ -15,7 +15,6 @@ public class Main {
         boolean salir = false;
         boolean toggleMetodos;
         Scanner sc = new Scanner(System.in);
-        Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
 
         while (!salir) {
@@ -41,14 +40,17 @@ public class Main {
 
                         switch (opcionAutor) {
                             case "1":
-                            ListarEntidades(session, true);
+                                insertarEntidad(toggleMetodos, sc);
+                                break;
+                            case "2":
+                                test();
                         }
                     }
             }
         }
     }
 
-    public static void insertarEntidad(Session session, Transaction transaction, boolean toggleMetodos, Scanner sc) {
+    public static void insertarEntidad(boolean toggleMetodos, Scanner sc) {
 
         if (toggleMetodos) {
             System.out.println("----Insertando nuevo autor----");
@@ -58,18 +60,22 @@ public class Main {
             String fechaNacimiento = sc.nextLine();
 
             try {
-                transaction = session.beginTransaction();
+                SessionFactory factory = new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Autor.class).buildSessionFactory();
+                Session session = factory.getCurrentSession();
 
                 Autor autor = new Autor();
                 autor.setNom(nombreAutor);
+
                 LocalDate localDate = LocalDate.parse(fechaNacimiento);
                 Date fecha = Date.valueOf(localDate);
                 autor.setDataNaixement(localDate);
 
+                session.beginTransaction();
                 session.save(autor);
-                transaction.commit();
+                session.getTransaction().commit();
+
             } catch (Exception e) {
-                transaction.rollback();
+                //transaction.rollback();
                 e.printStackTrace();
             }
         } else {
@@ -80,13 +86,13 @@ public class Main {
             int añoPublicacion = sc.nextInt();
 
             try {
-                transaction = session.beginTransaction();
+                //transaction = session.beginTransaction();
 
                 Llibre libro = new Llibre();
                 libro.setTitol(tituloLibro);
                 libro.setAnyPublicacio(añoPublicacion);
             } catch (Exception e) {
-                transaction.rollback();
+                //transaction.rollback();
                 e.printStackTrace();
             }
         }
@@ -99,6 +105,16 @@ public class Main {
             for (Llibre l : lista_libros) {
                 System.out.println(l.getTitol());
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void test() {
+        try (SessionFactory factory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory()) {
+            Session session = factory.openSession();
+            System.out.println("Conexión establecida con Hibernate");
+            session.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
