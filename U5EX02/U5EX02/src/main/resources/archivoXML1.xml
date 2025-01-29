@@ -1,0 +1,6 @@
+<persona>
+    <nombre>Pedro</nombre>
+    <apellido>Martinez Do Carmo</apellido>
+    <edad>19</edad>
+    <activo>true</activo>
+</persona>
