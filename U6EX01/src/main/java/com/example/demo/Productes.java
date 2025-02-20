@@ -1,46 +1,52 @@
 package com.example.demo;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.http.HttpStatus;
 
 import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 
 @RestController
 @RequestMapping("/get")
 public class Productes {
-
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
     @GetMapping("/productes") 
 
-    public List<Producto> getProductes() {
-        String url = "jdbc:sqlite:src/main/resources/basedatos.sqlite";
-        String sql = "SELECT * FROM productes";
-        List<Producto> listaProductos = new ArrayList<>();
+    public ResponseEntity<List<Map<String, Object>>> getProductes() {
         try {
-            Connection conn = DriverManager.getConnection(url);
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-
-            while (rs.next()) {
-                Producto producto = new Producto(rs.getInt("id"), 
-                rs.getString("nom"), 
-                rs.getString("descripcio"), 
-                rs.getDouble("preu"), 
-                rs.getInt("quantitat"));
-                listaProductos.add(producto);
-            }
-            return listaProductos;
-
-        } catch (SQLException e) {
+            String sql = "SELECT * FROM productes";
+            List<Map<String, Object>> listaProductos = jdbcTemplate.queryForList(sql);
+            return new ResponseEntity<>(listaProductos, HttpStatus.OK);
+        
+        } catch (Exception e) {
             System.out.println(e.getMessage()); 
+            return null;
+        }
+    }
+
+    @GetMapping("/productes/{id}")
+    public ResponseEntity<Map<String, Object>> getProductesID(@PathVariable int id) {
+        try {
+            String sql = "SELECT * FROM productes WHERE id = ?";
+            Map<String, Object> producto = jdbcTemplate.queryForMap(sql, id);
+            return new ResponseEntity<>(producto, HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
             return null;
         }
     }
