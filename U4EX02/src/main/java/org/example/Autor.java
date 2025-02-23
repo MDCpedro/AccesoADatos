@@ -20,7 +20,7 @@ public class Autor {
     @Column(name = "dataNaixement")
     private LocalDate dataNaixement;
 
-    @OneToMany(mappedBy = "autor")
+    @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL)
     private Set<org.example.Llibre> llibres = new LinkedHashSet<>();
 
     public Integer getId() {
